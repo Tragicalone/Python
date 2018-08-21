@@ -7,10 +7,19 @@ Response = requests.get("https://jimmy15923.github.io/example_page")
 if Response.status_code != 200:
     print("Response Status: response.status_code")
 else:
-    with open("Error.log", "w") as FileError:
+    with open("Error.log", mode="w", encoding='UTF-8') as FileError:
         FileError.write(Response.text + '\n')
         Soup = BeautifulSoup(Response.text, "lxml")
         FileError.write(Soup.find("h1").text)
+        FileError.write('\n' + '_' * 50 + '\n')
+        FileError.write(str(Soup.h1))
+        FileError.write('\n' + '_' * 50 + '\n')
+        FileError.write(str(Soup.html.h1))
+        FileError.write('\n' + '_' * 50 + '\n')
+        FileError.write(str(Soup.body.h1))
+        FileError.write('\n' + '_' * 50 + '\n')
+        FileError.write(str(Soup.html.body.h1))
+
 print("使用 ", (datetime.datetime.now() - StartTime).total_seconds(), " 秒")
 
 
