@@ -1,13 +1,17 @@
-# import 套件
+import datetime
 import requests
 from bs4 import BeautifulSoup
-response = requests.get("https://jimmy15923.github.io/example_page")
-if response.status_code != 200:
+
+StartTime = datetime.datetime.now()
+Response = requests.get("https://jimmy15923.github.io/example_page")
+if Response.status_code != 200:
     print("Response Status: response.status_code")
 else:
-    print(response.text)
-    soup = BeautifulSoup(response.text, "lxml")
-    print(soup.find("h1"))
+    with open("Error.log", "w") as FileError:
+        FileError.write(Response.text + '\n')
+        Soup = BeautifulSoup(Response.text, "lxml")
+        FileError.write(Soup.find("h1").text)
+print("使用 ", (datetime.datetime.now() - StartTime).total_seconds(), " 秒")
 
 
 # data1 = print("Hello Python")
