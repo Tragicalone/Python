@@ -13,3 +13,4 @@ git reset --hard TheNumber
 git checkout TheBranch
 git merge --no-ff -m "Accept message" TheBranch
 git push
+git remote -v

@@ -1,4 +1,5 @@
 import datetime
+
 import requests
 from bs4 import BeautifulSoup
 
@@ -19,10 +20,23 @@ else:
         FileError.write(str(Soup.body.h1))
         FileError.write('\n' + '_' * 50 + '\n')
         FileError.write(str(Soup.html.body.h1))
-
-
 print("使用 ", (datetime.datetime.now() - StartTime).total_seconds(), " 秒")
 
+from selenium import webdriver
+
+ChromeDriver = webdriver.Chrome("D:/Document/Python/chromedriver")
+ChromeDriver.get("http://www.sharecourse.net/sharecourse/course")
+Soap = BeautifulSoup(ChromeDriver.page_source, "lxml")
+with open("Error.log", mode="a", encoding='UTF-8') as FileError:
+    ClassDivs = Soap.findAll("div", {"class": "card hvr-underline-from-center"})
+    for TheDiv in ClassDivs:
+        FileError.write('\n' + '_' * 50 + '\n')
+        Temp3 = TheDiv.contents.findall("div", {"class": "card-body"})
+        Temp1 = TheDiv.get("onclick")
+        Temp2 = TheDiv.get("onclick").text
+        # FileError.write(TheDiv.get("onclick").text + '\n')
+ChromeDriver.close()
+print("使用 ", (datetime.datetime.now() - StartTime).total_seconds(), " 秒")
 
 # data1 = print("Hello Python")
 # print(data1)
