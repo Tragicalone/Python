@@ -1,31 +1,26 @@
 import datetime
-
 import requests
 from bs4 import BeautifulSoup
-
-StartTime = datetime.datetime.now()
-Response = requests.get("https://jimmy15923.github.io/example_page")
-if Response.status_code != 200:
-    print("Response Status: response.status_code")
-else:
-    with open("Error.log", mode="w", encoding='UTF-8') as FileError:
-        FileError.write(Response.text + '\n')
-        Soup = BeautifulSoup(Response.text, "lxml")
-        FileError.write(Soup.find("h1").text)
-        FileError.write('\n' + '_' * 50 + '\n')
-print("使用 ", (datetime.datetime.now() - StartTime).total_seconds(), " 秒")
-
 from selenium import webdriver
 
+StartTime = datetime.datetime.now()
 ChromeDriver = webdriver.Chrome("D:/Document/Python/chromedriver")
 ChromeDriver.get("http://www.sharecourse.net/sharecourse/course")
 Soap = BeautifulSoup(ChromeDriver.page_source, "lxml")
 with open("Error.log", mode="a", encoding='UTF-8') as FileError:
     for ClassDiv in Soap.findAll("div", {"class": "card hvr-underline-from-center"}):
-        FileError.write('\n' + '_' * 50 + '\n')
         for BodyDiv in ClassDiv.findAll("div", {"class": "card-body"}):
-            FileError.write(BodyDiv.text + '\n')
+            FileError.write(BodyDiv.text.replace('\n', ' ') + '\n')
         FileError.write(ClassDiv.get("onclick") + '\n')
+        FileError.write('_' * 50 + '\n')
+    for filterValue in Soap.find("select", {"id": "filterSelector"}).findAll("option"):
+        FileError.write(filterValue.text + '\n')
+    FileError.write('_' * 50 + '\n')
+
+
+Filter = ChromeDriver.find_element_by_id("filterSelector")
+Filter.click()
+
 ChromeDriver.close()
 print("使用 ", (datetime.datetime.now() - StartTime).total_seconds(), " 秒")
 

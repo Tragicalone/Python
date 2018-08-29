@@ -2,6 +2,8 @@
 New Beginner Python
 
 # Git
+git config --global user.name
+git config --global user.email
 git clone URL
 git add TheFile
 git diff
