@@ -5,22 +5,16 @@ from selenium import webdriver
 from PIL import Image
 
 StartTime = datetime.datetime.now()
-ChromeDriver = webdriver.Chrome("D:\\Document\\Python\\chromedriver.exe")
+ChromeDriver = webdriver.Chrome("chromedriver.exe")
 ChromeDriver.get("http://insprod.tii.org.tw/database/insurance/query.asp")
-CSSaved = ChromeDriver.save_screenshot(
-    "D:\\Document\\Python\\ChromeScreen.bmp")
+CSSaved = ChromeDriver.save_screenshot("ChromeScreen.png")
 print("Get ChromeScreen: ", CSSaved)
-Screen = Image.open("D:\\Document\\Python\\ChromeScreen.bmp")
+Screen = Image.open("ChromeScreen.png")
 Images = ChromeDriver.find_elements_by_tag_name("img")
 PWRect = (Images[7].location["x"], Images[7].location["y"], Images[7].location["x"] +
           Images[7].size["width"], Images[7].location["y"] + Images[7].size["height"])
-
 CutImage = Screen.crop(PWRect)
-CutImage.show()
-CutImage = Screen.crop((Images[7].location["y"], Images[7].location["x"], Images[7].location["y"] +
-                        Images[7].size["height"], Images[7].location["x"] + Images[7].size["width"]))
-CutImage.show()
-CutImage.save("D:\\Document\\Python\\CutScreen.bmp")
+CutImage.save("CutScreen.png")
 
 
 Soup = BeautifulSoup(ChromeDriver.page_source, "lxml")
@@ -28,7 +22,6 @@ AImages = Soup.findAll("img")
 for AImage in AImages:
     print(AImage)
 
-ChromeDriver.close()
 exit()
 
 ChromeDriver.get("bmp.asp")
