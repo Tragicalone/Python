@@ -1,5 +1,5 @@
 # Python
-New Beginner Python
+最後編輯日 2018/11/26
 
 # Git
 git config --global user.name            <--- 查詢 Git Hub 帳號
