@@ -1,9 +1,10 @@
 import os
-import requests
-import pandas as pd
+import pandas
 import datetime
-
+import requests
 from bs4 import BeautifulSoup
+
+#目前不能跑
 
 after_one_week = datetime.datetime.now() + datetime.timedelta(weeks=1)
 after_one_week_format = after_one_week.strftime('%Y/%m/%d')
@@ -48,10 +49,10 @@ for i, row in enumerate(rows):
 
     rows[i] = [trips, t_departure, t_arrive, duration, early_ticket]
 
-df = pd.DataFrame(rows, columns=colname)
+df = pandas.DataFrame(rows, columns=colname)
 df
 
-results = os.path.abspath('Results')
+results = os.path.abspath('..\PythonResults')
 if not os.path.exists(results):
     os.makedirs(results)
 

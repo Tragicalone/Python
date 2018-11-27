@@ -1,21 +1,18 @@
-import requests
 import re
 import os
-
+import requests
 from bs4 import BeautifulSoup
-from pprint import pprint
 
+#目前不能跑
 
 soup = BeautifulSoup(requests.get("https://www.pexels.com/").text, 'lxml')
-
 article = soup.find('div', class_="photos").find_all(
     'article', class_='photo-item')
 imgs = [a.find('a').find('img')['src'] for a in article]
 target = imgs[:5]
 
-pprint(target)
 
-results = os.path.abspath('Results')
+results = os.path.abspath('..\PythonResults')
 
 if not os.path.exists(results):
     os.makedirs(results)

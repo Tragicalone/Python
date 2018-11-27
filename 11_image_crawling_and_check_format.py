@@ -1,15 +1,12 @@
-import requests
 import os
-
+import requests
 from PIL import Image
 from bs4 import BeautifulSoup
 
-PageResponse = requests.get(
-    "https://afuntw.github.io/Test-Crawling-Website/pages/portfolio/index.html")
-soup = BeautifulSoup(PageResponse.text, 'lxml')
-imgItems = soup.find_all('img')
-imgscrs = [imgscr['src'] for imgscr in imgItems]
-OutputPath = os.path.abspath('Results')
+soup = BeautifulSoup(requests.get(
+    "https://afuntw.github.io/Test-Crawling-Website/pages/portfolio/index.html").text, 'lxml')
+imgscrs = [imgscr['src'] for imgscr in soup.find_all('img')]
+OutputPath = os.path.abspath('..\PythonResults')
 if not os.path.exists(OutputPath):
     os.makedirs(OutputPath)
 
@@ -19,4 +16,4 @@ for imgscr in imgscrs:
     FileName = os.path.join(OutputPath, os.path.basename(
         imgscr).split('.')[0] + "." + ImageStream.format.lower())
     ImageStream.save(FileName)
-    print('save image at {}'.format(FileName))
+    print("save image at " + FileName)
