@@ -8,31 +8,39 @@ from tldextract import extract
 from urllib.parse import urljoin
 from urllib.parse import urlparse
 
-
-def InvalidURL(AURL):
-    if re.match('.*#.*', AURL): return True
-    elif re.match('[^https|http].*', urlparse(AURL).scheme): return True
-    elif re.match('javascript.*', AURL): return True
-    else: return False
-
-
 SearchedURLList = []
 SearchURLList = ["http://aiacademy.tw/"]
 RootDomain = extract(SearchURLList[0]).domain
-
 while SearchURLList:
     CurrentURL = SearchURLList.pop()
-    SearchedURLList.append(CurrentURL)
-    ATagSet = BeautifulSoup(requests.get(CurrentURL).text, "lxml").find_all('a')
-    for ATag in ATagSet:
+    SearchedURLList += [CurrentURL]
+    print(CurrentURL)
+    for ATag in BeautifulSoup(requests.get(CurrentURL).text, "lxml").find_all('a'):
         if not ATag.has_attr("href"):
             continue
-        ATagURL = ATag["href"]
-        if InvalidURL(ATagURL):
+        if ATag.has_attr("class"):
+            ATagClass = str(ATag["class"])
+        else:
+            ATagClass = ""
+        ATagURL = urljoin(CurrentURL, ATag["href"])
+        if extract(ATagURL).domain != RootDomain:
             continue
-        ATagURL = urljoin(CurrentURL, ATagURL)
-        if ATagURL not in SearchedURLList and ATagURL not in SearchURLList and extract(ATagURL).domain == RootDomain:
-            SearchURLList.append(ATagURL)
-    print("SearchURLList:" + str(len(SearchURLList)) + ", SearchedURLList:" + str(len(SearchedURLList)))
+        if re.match(".*#.*", ATagURL):
+            continue
+        if re.match("[^https|http].*", urlparse(ATagURL).scheme):
+            continue
+        if re.match("javascript.*", ATagURL):
+            continue
+        if ATagURL in SearchedURLList:
+            continue
+        if ATagURL in SearchURLList:
+            continue
+        if re.match(".*disabled.*", ATagClass):
+            continue
+        SearchURLList += [ATagURL]
+    print("SearchURLList:" + str(len(SearchURLList)) +
+          ", SearchedURLList:" + str(len(SearchedURLList)))
+with open("..\\PythonResults\\15_valid_URL.txt", "w") as FileWriter:
+    for SearchedURL in SearchedURLList:
+        FileWriter.write(SearchedURL + '\n')
 pprint(SearchedURLList)
-

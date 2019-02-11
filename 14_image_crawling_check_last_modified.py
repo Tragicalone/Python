@@ -2,19 +2,19 @@ import os
 import requests
 from PIL import Image
 #from time import ctime
-from pprint import pprint
+#from pprint import pprint
 from bs4 import BeautifulSoup
 from datetime import datetime
 
 AssignedLastModifiedTime = datetime(2018, 1, 29, 14, 39, 10)
-ImageURLS = [IMGTag['src'] for IMGTag in BeautifulSoup(requests.get(
-    "https://afuntw.github.io/Test-Crawling-Website/pages/portfolio/index.html").text, "lxml").find_all('img')]
 
 OutputPath = os.path.abspath('..\PythonResults')
 if not os.path.exists(OutputPath):
     os.makedirs(OutputPath)
 
-for ImageURL in ImageURLS:
+for IMGTag in BeautifulSoup(requests.get(
+        "https://afuntw.github.io/Test-Crawling-Website/pages/portfolio/index.html").text, "lxml").find_all('img'):
+    ImageURL = IMGTag['src']
     ImageHeaders = dict(requests.head(ImageURL).headers)
     if 'Last-Modified' in ImageHeaders and datetime.strptime(ImageHeaders['Last-Modified'], '%a, %d %b %Y %H:%M:%S GMT') < AssignedLastModifiedTime:
         continue

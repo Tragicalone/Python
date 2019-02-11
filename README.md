@@ -3,7 +3,10 @@
 
 # VS Code
 F2           <--- 重新命名
+F12          <--- 移至定義
 ALT+SHIFT+F  <--- 自動排版
+ALT+0        <--- 全部摺疊
+ALT+SHIFT+0  <--- 全部展開
 
 # Git
 git config --global user.name            <--- 查詢 Git Hub 帳號
