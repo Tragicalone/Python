@@ -26,4 +26,5 @@ git remote -v
 
 #Jupyter
 pip install "ipython[notebook]"   <--- 安裝 Jupyter
+pip install opencv-python         <--- 安裝 OpenCV
 jupyter notebook                  <--- 於目前目錄啟動 Jupyter Service
