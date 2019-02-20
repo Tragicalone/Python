@@ -16,11 +16,11 @@ if not os.path.exists(PathResult):
     os.makedirs(PathResult)
 FileName = os.path.join(PathResult, "boxofficemojo.csv")
 DataFrame.to_csv(FileName, index=False)
-print("Save csv to {}".format(FileName))
+TextTarget("Save csv to {}".format(FileName))
 
 
 after_one_week = datetime.datetime.now() + datetime.timedelta(weeks=1)
-print("The date after one week - {}".format(after_one_week.strftime("%Y/%m/%d")))
+TextTarget("The date after one week - {}".format(after_one_week.strftime("%Y/%m/%d")))
 
 DataForm = {"StartStation": "977abb69-413a-4ccf-a109-0272c24fd490", "EndStation": "9c5ac6ca-ec89-48f8-aab0-41b738cb1814",
             "SearchDate": after_one_week.strftime("%Y/%m/%d"), "SearchTime": "14:00", "SearchWay": "DepartureInMandarin", "RestTime": "", "EarlyOrLater": ""}
@@ -55,4 +55,4 @@ DataFrame = pandas.DataFrame(RowData, columns=ColumnName)
 FileName = os.path.join(PathResult, "thsrc_{}.csv".format(
     after_one_week.strftime("%Y%m%d")))
 DataFrame.to_csv(FileName, index=False)
-print("Save csv to {}".format(FileName))
+TextTarget("Save csv to {}".format(FileName))

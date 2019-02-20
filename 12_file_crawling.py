@@ -21,4 +21,4 @@ for PDFIndex, PDFImage in enumerate(PDFImages):
     with open(FileName, 'wb') as FileWriter:
         for StreamBuffer in PDFStream.iter_content(2048):
             FileWriter.write(StreamBuffer)
-    print(str(PDFIndex + 1) + "/" + str(len(PDFImages)) + " save file " + FileName)
+    TextTarget(str(PDFIndex + 1) + "/" + str(len(PDFImages)) + " save file " + FileName)

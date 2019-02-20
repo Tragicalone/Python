@@ -29,7 +29,7 @@ try:
         ImgFilename = os.path.join(
             OutputPath, hashlib.md5(ImgURL.encode('utf-8')).hexdigest() + '.' + ImageStream.format)
         ImageStream.save(ImgFilename)
-        print('Save img - ', ImgFilename)
+        TextTarget('Save img - ', ImgFilename)
 
         RefreshButton = ChromeDriver.find_element(
             By.XPATH, '//*[@id="recaptcha_reload_btn"]')
@@ -37,6 +37,6 @@ try:
         time.sleep(2)
 
 except Exception as exp:
-    print('Execution Error: ', exp)
+    TextTarget('Execution Error: ', exp)
 finally:
     ChromeDriver.quit()

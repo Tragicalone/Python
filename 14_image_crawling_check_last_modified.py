@@ -20,9 +20,9 @@ for IMGTag in BeautifulSoup(requests.get(
         continue
     ImageData = Image.open(requests.get(ImageURL, stream=True).raw)
     BaseFileName = os.path.basename(ImageURL)
-    print("catch the filename " + BaseFileName +
+    TextTarget("catch the filename " + BaseFileName +
           " and the real format is " + ImageData.format)
     SavedFileName = os.path.join(OutputPath, BaseFileName.split('.')[
                                  0] + '.' + ImageData.format.lower())
     ImageData.save(SavedFileName)
-    print("save image at " + SavedFileName)
+    TextTarget("save image at " + SavedFileName)

@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup
 
 after_one_week = datetime.datetime.now() + datetime.timedelta(weeks=1)
 after_one_week_format = after_one_week.strftime('%Y/%m/%d')
-print("The date after one week - " + after_one_week.strftime('%Y/%m/%d'))
+TextTarget("The date after one week - " + after_one_week.strftime('%Y/%m/%d'))
 
 form_data = {
     'StartStation': '台北站',
@@ -59,4 +59,4 @@ if not os.path.exists(results):
 filename = os.path.join(results, 'thsrc_{}.csv'.format(
     after_one_week.strftime('%Y%m%d')))
 df.to_csv(filename, index=False)
-print('Save csv to {}'.format(filename))
+TextTarget('Save csv to {}'.format(filename))

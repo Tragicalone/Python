@@ -22,12 +22,12 @@ while True:
     pages += 1
     
     if 'next' not in data['paging']:
-        print('EOF')
+        TextTarget('EOF')
         break
         
     else:
         url = data['paging']['next']
-        print('page {}'.format(pages))
+        TextTarget('page {}'.format(pages))
 
 posts_summary = []
 for post in posts:
@@ -51,4 +51,4 @@ if not os.path.exists(results):
     
 filename = os.path.join(results, 'fanpage_{}.csv'.format(fanpage_id))
 df.to_csv(filename, index=False)
-print('Save file - {}'.format(filename))
+TextTarget('Save file - {}'.format(filename))

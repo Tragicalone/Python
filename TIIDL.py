@@ -1,5 +1,6 @@
 import os
 import cv2
+import time
 import datetime
 import requests
 import pytesseract
@@ -8,42 +9,37 @@ from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 
-StartTime = datetime.datetime.now()
 pytesseract.pytesseract.tesseract_cmd = "C:/Program Files/Tesseract-OCR/tesseract.exe"
-
-OutputPath = os.path.abspath("..\PythonResults")
+OutputPath = os.path.abspath("../PythonResults/TIIImage")
 if not os.path.exists(OutputPath):
     os.makedirs(OutputPath)
+OutputPath = os.path.abspath("../PythonResults")
+
+StartTime = datetime.datetime.now()
 
 ChromeDriver = webdriver.Chrome("chromedriver.exe")
 ChromeDriver.get("http://insprod.tii.org.tw/database/insurance/query.asp")
 ChromeDriver.maximize_window()
-ChromeDriver.implicitly_wait(10)
 
-ImageTag = ChromeDriver.find_element(By.XPATH, "//*[@id='printContext']/table/tbody/tr/td/table[2]/tbody/tr/td[1]/table[3]/tbody/tr/td/table/tbody/tr[1]/td/table/tbody/tr[2]/td/table/tbody/tr/td[2]/table/tbody/tr[5]/td/img")
+for IndexLoop in range(10):
+    ChromeDriver.refresh()
+    ChromeDriver.implicitly_wait(10)
+    ImageTag = ChromeDriver.find_element(By.XPATH, "//*[@id='printContext']/table/tbody/tr/td/table[2]/tbody/tr/td[1]/table[3]/tbody/tr/td/table/tbody/tr[1]/td/table/tbody/tr[2]/td/table/tbody/tr/td[2]/table/tbody/tr[5]/td/img")
+    ChromeDriver.save_screenshot(os.path.join(OutputPath, "ChromeScreen.png"))
+    ValidateImage = Image.open(os.path.join(OutputPath, "ChromeScreen.png"))
+    ValidateImage = ValidateImage.crop((ImageTag.location["x"] + 1, ImageTag.location["y"] + 1, ImageTag.location["x"] + ImageTag.size["width"] - 1, ImageTag.location["y"] + ImageTag.size["height"] - 1))
+    ValidateImage.save(os.path.join(OutputPath, "CutScreen.png"))
+    ValidateRGB = cv2.imread(os.path.join(OutputPath, "CutScreen.png"), cv2.IMREAD_GRAYSCALE)
+    ValidateBlurRGB = cv2.medianBlur(ValidateRGB, 5)
+    ReturnThreshold, ValidateBlurRGB = cv2.threshold(ValidateBlurRGB, 127, 255, cv2.THRESH_BINARY)
+    ValidateText = pytesseract.image_to_string(ValidateBlurRGB, config="-psm 7 -c tessedit_char_whitelist=0123456789")
+    TextTarget(ValidateText)
+    cv2.imwrite(os.path.join(OutputPath, "TIIImage/BUR_" + ValidateText + ".png"), ValidateBlurRGB)
+    ValidateImage.save(os.path.join(OutputPath, "TIIImage/ORI_" + ValidateText + ".png"))
+    time.sleep(1)
 
-ChromeDriver.save_screenshot(os.path.join(OutputPath, "ChromeScreen.png"))
-ValidateImage = Image.open(os.path.join(OutputPath, "ChromeScreen.png"))
-ValidateImage = ValidateImage.crop((ImageTag.location["x"] + 1, ImageTag.location["y"] + 1, ImageTag.location["x"] + ImageTag.size["width"] - 1, ImageTag.location["y"] + ImageTag.size["height"] - 1))
-ValidateImage.save(os.path.join(OutputPath, "CutScreen.png"))
 
-ValidateRGB = cv2.imread(os.path.join(OutputPath, "CutScreen.png"))
-cv2.imshow("Origin", ValidateRGB)
-for IndexH in range(10):
-    ModifiedRGB = cv2.fastNlMeansDenoisingColored(ValidateRGB, None,
-                                                  IndexH * 10, 10, 7, 21)
-    cv2.imwrite(os.path.join(OutputPath, "ModifiedCutScreen.png"), ModifiedRGB)
-    ValidateImage = Image.open(
-        os.path.join(OutputPath, "ModifiedCutScreen.png"))
-    ValidateText = pytesseract.image_to_string(ValidateImage)
-    cv2.imshow("H " + str(IndexH) + " " + ValidateText, ModifiedRGB)
-cv2.waitKey(0)
-cv2.destroyAllWindows()
-
-ValidateTag = ChromeDriver.find_element(
-    By.XPATH,
-    "//*[@id='printContext']/table/tbody/tr/td/table[2]/tbody/tr/td[1]/table[3]/tbody/tr/td/table/tbody/tr[1]/td/table/tbody/tr[2]/td/table/tbody/tr/td[2]/table/tbody/tr[5]/td/input[1]",
-)
+ValidateTag = ChromeDriver.find_element(By.XPATH, "//*[@id='printContext']/table/tbody/tr/td/table[2]/tbody/tr/td[1]/table[3]/tbody/tr/td/table/tbody/tr[1]/td/table/tbody/tr[2]/td/table/tbody/tr/td[2]/table/tbody/tr[5]/td/input[1]")
 ValidateTag.send_keys(ValidateText)
 
 FileError = open("Error.log", mode="w", encoding="UTF-8")
@@ -60,4 +56,4 @@ FileError = open("Error.log", mode="w", encoding="UTF-8")
 # Filter.click()
 
 FileError.close()
-print("使用 ", (datetime.datetime.now() - StartTime).total_seconds(), " 秒")
+TextTarget("使用 ", (datetime.datetime.now() - StartTime).total_seconds(), " 秒")

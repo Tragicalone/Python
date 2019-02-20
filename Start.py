@@ -20,7 +20,7 @@ with open("Error.log", mode="w", encoding='UTF-8') as FileError:
 Filter = ChromeDriver.find_element_by_id("filterSelector")
 
 ChromeDriver.close()
-print("使用 ", (datetime.datetime.now() - StartTime).total_seconds(), " 秒")
+TextTarget("使用 ", (datetime.datetime.now() - StartTime).total_seconds(), " 秒")
 
 # data2 = [(1, 2, 3), (4, 5, 6), (7, 8, 9)]
 # print(data2)

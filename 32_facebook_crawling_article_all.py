@@ -34,7 +34,7 @@ while True:
     comments += data['comments']['data']
     
     if 'after' not in data['comments']['paging']['cursors']:
-        print('EOF')
+        TextTarget('EOF')
         break
     else:
         cursors_after = data['comments']['paging']['cursors']['after']
@@ -42,9 +42,9 @@ while True:
             10, cursors_after, 100, token
         )
         url = '{}/{}'.format(base_url, query)
-        print('pages {}'.format(pages))
+        TextTarget('pages {}'.format(pages))
 
-print('comments length = {}'.format(len(comments)))
+TextTarget('comments length = {}'.format(len(comments)))
 
 for comment in comments:
     application, attachment, message = '', '', ''
@@ -69,5 +69,5 @@ if not os.path.exists(results):
 
 filename = os.path.join(results, '{}.csv'.format(article_id))
 df.to_csv(filename, index=False)
-print('Save file - {}'.format(filename))
+TextTarget('Save file - {}'.format(filename))
 

@@ -20,11 +20,11 @@ if not os.path.exists(results):
 for i in target:
     img_resp = requests.get(i, stream=True)
     filename = re.match(r".*(pexels-photo-([0-9]{6})\.jpeg).*", i).group(1)
-    print('regex catch the name ' + filename)
+    TextTarget('regex catch the name ' + filename)
 
     filename = os.path.join(results, filename)
 
     with open(filename, 'wb') as f:
         for chunk in img_resp.iter_content(2048):
             f.write(chunk)
-        print('Save the img at {}'.format(filename))
+        TextTarget('Save the img at {}'.format(filename))

@@ -22,5 +22,5 @@ while WaitingURLList:
     WaitingURLList += filter(lambda URLText: URLText not in ViewedURLList,
                              [urljoin(Request.url, ATag['href']) for ATag in Soup.find_all('a')])
     WaitingURLList = list(set(WaitingURLList))
-    print("WaitingURLList:\n" + str(WaitingURLList) + "\nViewedURLList:\n" +
+    TextTarget("WaitingURLList:\n" + str(WaitingURLList) + "\nViewedURLList:\n" +
           str(ViewedURLList) + "\nAllH1Text:\n" + str(AllH1Text) + '\n' + '=' * 87)

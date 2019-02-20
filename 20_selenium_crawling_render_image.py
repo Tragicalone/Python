@@ -39,6 +39,6 @@ try:
                 FileWrite.write(StreamBuffer)
 
 except Exception as exp:
-    print(exp)
+    TextTarget(exp)
 finally:
     SeleniumChrome.quit()

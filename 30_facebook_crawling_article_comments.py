@@ -24,13 +24,13 @@ while True:
     comments += data['data']
 
     if 'next' not in data['paging']:
-        print('EOF')
+        TextTarget('EOF')
         break
     else:
         url = data['paging']['next']
-        print('pages {}'.format(pages))
+        TextTarget('pages {}'.format(pages))
 
-print('comment length = {}'.format(len(comments)))
+TextTarget('comment length = {}'.format(len(comments)))
 
 df = pd.DataFrame.from_records(comments)
 df.head()
@@ -41,4 +41,4 @@ if not os.path.exists(results):
 
 filename = os.path.join(results, '{}.csv'.format(article_id))
 df.to_csv(filename, index=False)
-print('Save file - {}'.format(filename))
+TextTarget('Save file - {}'.format(filename))
