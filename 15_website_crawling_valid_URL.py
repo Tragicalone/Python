@@ -14,7 +14,7 @@ RootDomain = extract(SearchURLList[0]).domain
 while SearchURLList:
     CurrentURL = SearchURLList.pop()
     SearchedURLList += [CurrentURL]
-    TextTarget(CurrentURL)
+    print(CurrentURL)
     for ATag in BeautifulSoup(requests.get(CurrentURL).text, "lxml").find_all('a'):
         if not ATag.has_attr("href"):
             continue
@@ -38,7 +38,7 @@ while SearchURLList:
         if re.match(".*disabled.*", ATagClass):
             continue
         SearchURLList += [ATagURL]
-    TextTarget("SearchURLList:" + str(len(SearchURLList)) +
+    print("SearchURLList:" + str(len(SearchURLList)) +
           ", SearchedURLList:" + str(len(SearchedURLList)))
 with open("..\\PythonResults\\15_valid_URL.txt", "w") as FileWriter:
     for SearchedURL in SearchedURLList:

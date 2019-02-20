@@ -3,7 +3,7 @@ import requests
 import pandas as pd
 from datetime import datetime
 
-#目前不知道如何查token
+# 目前不知道如何查token
 # 透過 Graph API 觀察文章 ID 與 token
 article_id = '1213927345375910'
 token = ''
@@ -24,13 +24,13 @@ while True:
     comments += data['data']
 
     if 'next' not in data['paging']:
-        TextTarget('EOF')
+        print('EOF')
         break
     else:
         url = data['paging']['next']
-        TextTarget('pages {}'.format(pages))
+        print('pages {}'.format(pages))
 
-TextTarget('comment length = {}'.format(len(comments)))
+print('comment length = {}'.format(len(comments)))
 
 df = pd.DataFrame.from_records(comments)
 df.head()
@@ -41,4 +41,4 @@ if not os.path.exists(results):
 
 filename = os.path.join(results, '{}.csv'.format(article_id))
 df.to_csv(filename, index=False)
-TextTarget('Save file - {}'.format(filename))
+print('Save file - {}'.format(filename))

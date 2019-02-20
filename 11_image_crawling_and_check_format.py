@@ -17,4 +17,4 @@ for imgscr in soup.find_all('img'):
     FileName = os.path.join(OutputPath, os.path.basename(
         ImageAddress).split('.')[0] + "." + ImageStream.format.lower())
     ImageStream.save(FileName)
-    TextTarget("save image at " + FileName)
+    print("save image at " + FileName)

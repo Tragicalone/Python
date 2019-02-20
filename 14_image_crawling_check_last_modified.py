@@ -12,17 +12,14 @@ OutputPath = os.path.abspath('..\PythonResults')
 if not os.path.exists(OutputPath):
     os.makedirs(OutputPath)
 
-for IMGTag in BeautifulSoup(requests.get(
-        "https://afuntw.github.io/Test-Crawling-Website/pages/portfolio/index.html").text, "lxml").find_all('img'):
+for IMGTag in BeautifulSoup(requests.get("https://afuntw.github.io/Test-Crawling-Website/pages/portfolio/index.html").text, "lxml").find_all('img'):
     ImageURL = IMGTag['src']
     ImageHeaders = dict(requests.head(ImageURL).headers)
     if 'Last-Modified' in ImageHeaders and datetime.strptime(ImageHeaders['Last-Modified'], '%a, %d %b %Y %H:%M:%S GMT') < AssignedLastModifiedTime:
         continue
     ImageData = Image.open(requests.get(ImageURL, stream=True).raw)
     BaseFileName = os.path.basename(ImageURL)
-    TextTarget("catch the filename " + BaseFileName +
-          " and the real format is " + ImageData.format)
-    SavedFileName = os.path.join(OutputPath, BaseFileName.split('.')[
-                                 0] + '.' + ImageData.format.lower())
+    print("catch the filename " + BaseFileName + " and the real format is " + ImageData.format)
+    SavedFileName = os.path.join(OutputPath, BaseFileName.split('.')[0] + '.' + ImageData.format.lower())
     ImageData.save(SavedFileName)
-    TextTarget("save image at " + SavedFileName)
+    print("save image at " + SavedFileName)

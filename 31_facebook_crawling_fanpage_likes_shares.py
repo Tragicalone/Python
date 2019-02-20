@@ -20,14 +20,14 @@ while True:
     data = resp.json()
     posts += data['data']
     pages += 1
-    
+
     if 'next' not in data['paging']:
-        TextTarget('EOF')
+        print('EOF')
         break
-        
+
     else:
         url = data['paging']['next']
-        TextTarget('page {}'.format(pages))
+        print('page {}'.format(pages))
 
 posts_summary = []
 for post in posts:
@@ -48,7 +48,7 @@ df.head()
 results = os.path.abspath('../results')
 if not os.path.exists(results):
     os.makedirs(results)
-    
+
 filename = os.path.join(results, 'fanpage_{}.csv'.format(fanpage_id))
 df.to_csv(filename, index=False)
-TextTarget('Save file - {}'.format(filename))
+print('Save file - {}'.format(filename))

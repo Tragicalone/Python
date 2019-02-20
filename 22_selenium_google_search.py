@@ -15,10 +15,10 @@ try:
     InputSearch.send_keys(Keys.ENTER)
 
     for IndexPage in range(2):
-        TextTarget('=' * 87, ' Page ', IndexPage)
+        print('=' * 87, ' Page ', IndexPage)
         for ATag in CromeDriver.find_elements(By.XPATH, '//div[@class="r"]/a'):
-            TextTarget('Title: ', ATag.find_element(By.XPATH, 'h3').text)
-            TextTarget('Url:   ', ATag.get_attribute('href'))
+            print('Title: ', ATag.find_element(By.XPATH, 'h3').text)
+            print('Url:   ', ATag.get_attribute('href'))
         NextPageSpan = CromeDriver.find_element(
             By.XPATH, '//*[@id="pnnext"]/span[2]')
         if not NextPageSpan:
@@ -26,6 +26,6 @@ try:
         NextPageSpan.click()
 
 except Exception as exp:
-    TextTarget('Execution error: ', exp)
+    print('Execution error: ', exp)
 finally:
     CromeDriver.quit()

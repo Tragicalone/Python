@@ -12,9 +12,9 @@ try:
         title = DDTag.find_element(By.XPATH, './div/h5/a').text
         price = DDTag.find_element(By.XPATH, './div/ul/li/span/span').text
         if title and price:
-            TextTarget(str(ItemIndex) + '  ' + title + ' - ' + price)
+            print(str(ItemIndex) + '  ' + title + ' - ' + price)
 
 except Exception as exp:
-    TextTarget(exp)
+    print(exp)
 finally:
     driver.quit()
