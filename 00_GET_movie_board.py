@@ -15,3 +15,7 @@ SavePath = "..\PythonResults"
 if not os.path.exists(SavePath):
     os.makedirs(SavePath)
 Data.to_csv(SavePath + "\\boxofficemojo.csv", index=False)
+
+DataLoad = pandas.read_csv(SavePath + "\\boxofficemojo.csv")
+print(Data)
+print(DataLoad)
