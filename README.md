@@ -9,6 +9,7 @@ ALT+0        <--- 全部摺疊
 ALT+SHIFT+0  <--- 全部展開
 
 # Git
+git init                                 <--- 目錄初始化
 git config --global user.name            <--- 查詢 Git Hub 帳號
 git config --global user.email           <--- 查詢 Git Hub 帳號 Email
 git clone https://github.com/Tragicalone <--- 複製 Tragicalone 的 Git Hub 到目前資料夾
